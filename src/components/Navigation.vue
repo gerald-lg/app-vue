@@ -16,7 +16,7 @@
 
 			<div>
 				<v-tabs background-color="transparent" slider-color="#1fd8f2">
-						<v-tab> <router-link> Inicio </router-link></v-tab> 
+						<v-tab>Inicio</v-tab> 
 						<v-tab>Quienes somos</v-tab>
 						<v-tab>Programas</v-tab>
 						<v-tab>Como funciona</v-tab>
