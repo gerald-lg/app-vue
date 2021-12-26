@@ -1,29 +1,35 @@
 <template>
-    <div class="mx-4 my-5 d-sm-flex flex-column align-center">
+    <div class="my-5 pa-15 d-flex flex-column align-center">
       <!-- Icono y título -->
       <div>
-        <v-icon size="90px" color="#847ae1">
-          mdi-lock-outline
-        </v-icon>
+        <v-img
+          alt="lock-icon"
+          class="my-2"
+          contain
+          src="../assets/lock-icon.png"
+          transition="scale-transition"
+          width="60px"
+        />
       </div>
 
-      <div style="text-decoration: underline #847ae1; font-size: x-large "> 
+      <div style="text-decoration: underline #847ae1; font-size: 30px "> 
         INICIO DE SESIÓN
       </div>
       <!-- formulario -->
-      <div>
-        <form @submit.prevent="submit">
+        <form action class="form" @submit.prevent="login">
             <v-text-field
+            color="#847ae1"
+            full-width
             v-model="rut"
-      placeholder="Ingrese el rut sin puntos y con guión 11111111-1"
+            placeholder="Ej: 11111111-1"
             :error-messages="rutErrors"
-            :counter="10"
             label="USUARIO"
             required
             @input="$v.rut.$touch()"
             @blur="$v.rut.$touch()"
             ></v-text-field>
             <v-text-field
+            color="#847ae1"
             v-model="password"
             type="password"
             :error-messages="passwordErrors"
@@ -34,36 +40,40 @@
             ></v-text-field>
         
             <v-btn block
-            class="my-4 "
-            @click="submit"
+            class="my-4 white--text"
+            color="#434b63"
+            @click="login"
             >
             LOGIN
             </v-btn>
             
         </form>
-      </div>
     </div>
 </template>
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength} from 'vuelidate/lib/validators'
+  import { required, maxLength, minLength} from 'vuelidate/lib/validators'
+  import service from '../logic/services.js'
   export default {
     name : 'Form',  
     mixins: [validationMixin],
     validations: {
-      rut: { required, maxLength: maxLength(10) },
+      rut: { required, maxLength: maxLength(10), minLength: minLength(10) },
       password: {required}
     },
-    data: () => ({
-      rut: '',
-      password: '',
-    }),
+    data(){
+      return {
+        rut: '',
+        password: '',
+      }
+    },
     computed: {
       rutErrors () {
         const errors = []
         if (!this.$v.rut.$dirty) return errors
         !this.$v.rut.maxLength && errors.push('Rut inválido')
+        !this.$v.rut.minLength && errors.push('Rut inválido')
         !this.$v.rut.required && errors.push('Este campo es requerido')
         return errors
       },
@@ -74,30 +84,23 @@
         return errors
       },
       validarFormatoRut() {
-      
+        //TODO: validar formato y rut.
         return this.rut;
       }
     },
     methods: {
-      submit () {
-        this.$v.$touch()
-      }
+     async login(){
+       this.$v.$touch()
+       try{
+        const response = await service.login(this.rut, this.password);
+        console.log(response.data.data.access_token);
+        // this.$store.dispatch('login', { token, user });
+        this.$router.push("/home");
+        }catch(Error){
+          console.log(Error);
+        }  
+      },
     },
   }
 </script>
 
-<codepen-resources lang="json">
-  {
-    "js": [
-      "https://cdn.jsdelivr.net/npm/vuelidate/dist/vuelidate.min.js",
-      "https://cdn.jsdelivr.net/npm/vuelidate/dist/validators.min.js"
-    ]
-  }
-</codepen-resources>
-
-<codepen-additional>
-  const { required, maxLength, email } = validators
-  const validationMixin = vuelidate.validationMixin
-
-  Vue.use(vuelidate.default)
-</codepen-additional>
