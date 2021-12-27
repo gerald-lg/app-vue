@@ -1,27 +1,28 @@
 <template>
     <div>
-        <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
-                <v-card>
-                    <v-img
-                    class="white--text"
-                    height="200px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                    >
-                    </v-img>
-                    <v-card-title>
-                        <div>
-                            <span>{{title}}</span><br>
-                            <div>{{body}}</div>
-                        </div>
-                    </v-card-title>
-                    <v-card-actions>
-                        <v-btn color="orange">Ver</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
-        </v-layout>
-
+        <v-img
+        class="rounded-lg"
+        height="200px"
+        width="100%"
+        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        >
+        </v-img>
+        <!-- Titulo y cuerpo -->
+        <div class="d-flex flex-column my-2">
+            <v-card 
+            flat
+            class="text-uppercase overflow-hidden text-justify-center"
+            height="70"
+            style="text-decoration: underline #847ae1; 
+            font-size: 20px"> {{title}}</v-card>
+            <br>
+            <v-card flat 
+            width="250px" 
+            height="125" 
+            class="overflow-hidden text-justify mx-auto">{{body}}</v-card>
+        </div>
+        <!-- Boton ver -->
+        <v-btn class="white--text font-weight-bold" width="250px" color="#d391af">VER</v-btn>
 
     </div>
 </template>

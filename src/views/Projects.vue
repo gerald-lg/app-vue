@@ -1,6 +1,12 @@
 <template>
-    <div>
-        <div v-for="project in projects" :key="project.id">
+    <div class="d-flex flex-row flex-wrap justify-center my-10">
+        <v-card v-for="project in projects" 
+        :key="project.id" 
+        width="20%"
+        align="center"
+        class="mx-2 my-2"
+        height="500px"
+        >
             <Post 
             v-bind:userId="project.userId"
             v-bind:id="project.id"
@@ -9,7 +15,7 @@
             v-bind:status="getStatus()"
             v-bind:amount="getAmount()"
                />
-        </div>
+        </v-card>
     </div>
 </template>
 
