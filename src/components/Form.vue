@@ -92,10 +92,13 @@
      async login(){
        this.$v.$touch()
        try{
-        const response = await service.login(this.rut, this.password);
-        console.log(response.data.data.access_token);
-        // this.$store.dispatch('login', { token, user });
-        this.$router.push("/home");
+          const response = await service.login(this.rut, this.password);
+          const token = response.data.data.access_token;
+          const user = this.rut;
+          // persistencia de datos
+          this.$store.dispatch('login', { token, user });
+          
+          this.$router.push("/home");
         }catch(Error){
           console.log(Error);
         }  
