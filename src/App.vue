@@ -3,7 +3,9 @@
     <!-- Barra de navegacion -->
     <Navigation/>
     <!-- Vista segun la ruta -->
-    <router-view/>
+    <v-main>
+      <router-view/>
+    </v-main>
   </v-app>
 </template>
 
