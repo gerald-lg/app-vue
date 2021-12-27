@@ -8,8 +8,7 @@ export default {
       const user = { rut, password };
       return axios.post(ENDPOINT_PATH_LOGIN, user);
     },
-    getPosts(userId,id, title){
-        const post = {userId, id, title};
-        return axios.get(ENDPOINT_PATH_POSTS,post);
+    getPosts(){
+        return axios.get(ENDPOINT_PATH_POSTS);
     }
 };
