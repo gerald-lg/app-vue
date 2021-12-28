@@ -16,9 +16,25 @@
 
 			<div>
 				<v-tabs background-color="transparent" slider-color="#1fd8f2">
-						<v-tab>Inicio</v-tab> 
+						<v-tab> <router-link
+                    to="/home"
+                    custom
+                    v-slot="{ href, navigate, isActive}"
+                  >
+                    <NavLink :active="isActive" :href="href" @click="navigate"
+                      > Inicio </NavLink
+                    >
+                  </router-link></v-tab> 
 						<v-tab>Quienes somos</v-tab>
-						<v-tab>Programas</v-tab>
+						<v-tab><router-link
+                    to="/post"
+                    custom
+                    v-slot="{ href, navigate, isActive}"
+                  >
+                    <NavLink :active="isActive" :href="href" @click="navigate"
+                      > Programas </NavLink
+                    >
+                  </router-link></v-tab>
 						<v-tab>Como funciona</v-tab>
 				</v-tabs>
 			</div>
