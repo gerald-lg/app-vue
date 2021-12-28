@@ -75,6 +75,8 @@
         !this.$v.rut.maxLength && errors.push('Rut inválido')
         !this.$v.rut.minLength && errors.push('Rut inválido')
         !this.$v.rut.required && errors.push('Este campo es requerido')
+        !this.validarFormatoRut(this.rut) && errors.push('Formato invalido')
+        !this.validarRut(this.rut) && errors.push('Rut inválido')
         return errors
       },
       passwordErrors () {
@@ -83,10 +85,6 @@
         !this.$v.password.required && errors.push('Este campo es requerido')
         return errors
       },
-      validarFormatoRut() {
-        //TODO: validar formato y rut.
-        return this.rut;
-      }
     },
     methods: {
      async login(){
@@ -97,14 +95,57 @@
           const user = this.rut;
           // persistencia de datos
           this.$store.dispatch('login', { token, user });
-          
           this.$router.push("/home");
         }catch(Error){
+          
           console.log(Error);
         }  
       },
-    },
-  }
+      validarFormatoRut(rut) {
+        //TODO: validar formato y rut.
+        var expReg = RegExp(/\d{8}-(\d|k)$/i);
+        return (expReg.test(rut))   
+      },
+      validarRut(rutCompleto){
+        var tmp 	= rutCompleto.split('-');
+        var digv	= tmp[1]; 
+        var rut 	= tmp[0];
+        if ( digv == 'K' ) digv = 'k' ;
+        return (this.calculardigVerificador(rut) == digv);
+      },
+      calculardigVerificador(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10))
+          S=(S+T%10*(9-M++%6))%11;
+        return S?S-1:'k';
+      },
+      cambiarFormato(arg){
+        console.log(arg, arg)
+        var rut = arg[0].split("-");
+
+        if(rut[0].length == 8 ){
+          var rutAux = "";
+          rutAux = rutAux+(rut[0].slice(0,2))+".";
+
+          for(var i=2; i<rut[0].length; i+=3){
+            rutAux = rutAux+(rut[0].slice(i,i+3));
+
+            if(i!=5){
+              rutAux = rutAux+"."
+            }
+            else{
+              return rutAux= rutAux+"-"+rut[1];
+            }
+        
+          }
+          
+        }
+        console.log(rut);
+        this.rut = rut;
+      }
+
+    }
+}
 </script>
 
 <style scoped>
