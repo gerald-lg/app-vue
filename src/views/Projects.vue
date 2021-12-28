@@ -6,12 +6,13 @@
             label="Filtrar por:"
             solo
             @change="filtro($event)"
+            v-model="selected"
             >
             </v-select>
         </div>
 
         <div class="d-flex flex-row flex-wrap justify-center">
-            <v-card v-for="project in projects" 
+            <v-card v-for="project in postFiltered"
             :key="project.id" 
             width="20%"
             align="center"
@@ -40,7 +41,9 @@ export default({
     data(){
         return{
             projects: [],
-            amount: ['Todos', '1M a 5M', '5M a 10M'], 
+            postFiltered : [], 
+            amount: ['Todos', '1M a 5M', '5M a 10M'],
+            selected : 'Todos' 
         }
     },
     components:{
@@ -55,18 +58,18 @@ export default({
             try {
                 this.projects = await (await service.getPosts()).data;
                 //se agregan los nuevos atributos
-                var state = this.projects.map(project => project.state = this.getStatus())
-                var amounts = this.projects.map(project => project.amount = this.getAmount())
-                this.projects = {...this.projects, amounts, state};
+                this.projects.map(project => project.status = this.getStatus())
+                this.projects.map(project => project.amount = this.getAmount())
             } catch (Error) {
                 console.log(Error);
             }
+            this.postFiltered = this.projects.filter(project => project.status == 1);
         }
     },
     methods: {
         //metodo que genera un numero al azar entre 0 y 1
         getStatus(){
-            var status = Math.floor(Math.random() * 2) == 1 ? true : false;
+            var status = Math.floor(Math.random() * 2) == 1 ? 1 : 0;
             return status
         },
         //metodo que genera un monto al azar entre 1.000.000 y 15.000.000
@@ -76,20 +79,22 @@ export default({
         },
         //TODO: REALIZAR FILTRO
         filtro(event){
+            this.postFiltered = [];
+            this.projects = JSON.parse(JSON.stringify(this.projects));
             if(event === "1M a 5M"){
-                // const filterArray = this.projects.filter(
-                //     project => (project.amount >= 1000000 && project.amount < 5000000)
-                // );
-                // console.log(filterArray);
+                this.postFiltered = this.projects.filter(project => (project.amount >= 1000000 && project.amount < 5000000 && project.status == 1))
+                console.log(this.postFiltered);
+                
             }
             else if(event === "5M a 10M"){
-                console.log(event);
+                this.postFiltered = this.projects.filter(project => ((project.amount >= 5000000 && project.amount < 10000000 && project.status == 1)))
+                console.log(this.postFiltered);
                 
             }
             else{
-                console.log(event)
+                this.postFiltered = this.projects.filter(project => project.status == 1);
+                console.log(this.postFiltered);
             }
-
         }
     }
 })
