@@ -18,9 +18,11 @@ export default {
     components: {
         Form,
     },
-    methods: {
-        
-    }
+    async created() {
+        //si tiene info en el local storage, pasa directo a home.
+        if (this.$store.getters.isLoggedIn) {
+            this.$router.push('/home');
+    }},
 }
 </script>
 
