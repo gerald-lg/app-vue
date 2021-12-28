@@ -66,6 +66,7 @@
       return {
         rut: '',
         password: '',
+        error : false,
       }
     },
     computed: {
@@ -77,6 +78,7 @@
         !this.$v.rut.required && errors.push('Este campo es requerido')
         !this.validarFormatoRut(this.rut) && errors.push('Formato invalido')
         !this.validarRut(this.rut) && errors.push('Rut inválido')
+        this.error && errors.push('Usuario invalido')
         return errors
       },
       passwordErrors () {
@@ -97,7 +99,7 @@
           this.$store.dispatch('login', { token, user });
           this.$router.push("/home");
         }catch(Error){
-          
+          this.error = true;
           console.log(Error);
         }  
       },
