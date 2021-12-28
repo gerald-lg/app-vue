@@ -36,7 +36,7 @@ export default ({
         id: Number,
         title: String,
         body: String,
-        status: Boolean,
+        status: Number,
         amount: Number
     }, methods: {
         getPost(id){
