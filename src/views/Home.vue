@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex flex-column align-center my-10">
+    <div class="d-flex flex-column align-center background">
         <!-- todo: colocar imagen de fondo -->
-        <div class="" style="text-decoration: underline #847ae1; font-size: 20px ">
+        <div class="mt-10" style="text-decoration: underline #847ae1; font-size: 20px ">
             <h1> BIENVENIDO </h1>
         </div>
 

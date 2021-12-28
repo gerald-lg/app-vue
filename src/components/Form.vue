@@ -1,5 +1,5 @@
 <template>
-    <div class="my-5 pa-15 d-flex flex-column align-center">
+    <div class="my-5 pa-15 d-flex flex-column align-center bg-color">
       <!-- Icono y título -->
       <div>
         <v-img
@@ -106,4 +106,13 @@
     },
   }
 </script>
+
+<style scoped>
+   
+.bg-color{
+  background-color: whitesmoke;
+  border-radius: 15px;
+}
+</style>
+
 

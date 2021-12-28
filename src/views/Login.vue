@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column align-center">
+    <div class="d-flex flex-column align-center bg">
         <Form/>
     </div>
 </template>
@@ -23,3 +23,23 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("../assets/background-login.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
