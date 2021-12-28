@@ -25,6 +25,7 @@
             :error-messages="rutErrors"
             label="USUARIO"
             required
+            @change="cambiarFormato($event)"
             @input="$v.rut.$touch()"
             @blur="$v.rut.$touch()"
             ></v-text-field>
@@ -73,8 +74,6 @@
       rutErrors () {
         const errors = []
         if (!this.$v.rut.$dirty) return errors
-        !this.$v.rut.maxLength && errors.push('Rut inválido')
-        !this.$v.rut.minLength && errors.push('Rut inválido')
         !this.$v.rut.required && errors.push('Este campo es requerido')
         !this.validarFormatoRut(this.rut) && errors.push('Formato invalido')
         !this.validarRut(this.rut) && errors.push('Rut inválido')
@@ -104,12 +103,12 @@
         }  
       },
       validarFormatoRut(rut) {
-        //TODO: validar formato y rut.
-        var expReg = RegExp(/\d{8}-(\d|k)$/i);
+        var expReg = RegExp((/\d{1,2}(\.\d{3}){2}-(\d|k)$/i));
         return (expReg.test(rut))   
       },
       validarRut(rutCompleto){
-        var tmp 	= rutCompleto.split('-');
+        var rutAux = this.cambiarFormato2(rutCompleto);
+        var tmp 	= rutAux.split('-');
         var digv	= tmp[1]; 
         var rut 	= tmp[0];
         if ( digv == 'K' ) digv = 'k' ;
@@ -121,10 +120,10 @@
           S=(S+T%10*(9-M++%6))%11;
         return S?S-1:'k';
       },
+      //metodo que cambia desde un rut sin puntos con guion -> XX.XXX.XXX-X
       cambiarFormato(arg){
-        console.log(arg, arg)
-        var rut = arg[0].split("-");
-
+        //(/\d{8}-(\d|k)$/i)  si obedece a este patron se cambia sino lanza error
+        var rut = arg.split("-");
         if(rut[0].length == 8 ){
           var rutAux = "";
           rutAux = rutAux+(rut[0].slice(0,2))+".";
@@ -136,16 +135,20 @@
               rutAux = rutAux+"."
             }
             else{
-              return rutAux= rutAux+"-"+rut[1];
+              return this.rut = rutAux+"-"+rut[1];
             }
-        
           }
-          
         }
-        console.log(rut);
-        this.rut = rut;
+      },
+      //metodo que cambia desde XX.XXX.XXX-X a XXXXXXXX-X
+      cambiarFormato2(arg){
+        var rut = (arg.split("."));
+        var rutAux='';
+        rut.forEach(aux => {
+          rutAux= rutAux+ aux;
+        });
+        return rutAux;
       }
-
     }
 }
 </script>
